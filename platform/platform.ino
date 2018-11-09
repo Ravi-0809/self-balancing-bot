@@ -20,15 +20,16 @@ uint8_t servo_angle;
 Quaternion q;           // [w, x, y, z]         quaternion container
 VectorFloat gravity;    // [x, y, z]            gravity vector
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
-
+float last_time;
+float angle;
  
 
 /*********Tune these 4 values for your BOT*********/
-double setpoint1= 177, setpoint2 = 314.5; //set the value when the bot is perpendicular to ground using serial monitor. 
+double setpoint1= 181; //set the value when the bot is perpendicular to ground using serial monitor. 
 //Read the project documentation on circuitdigest.com to learn how to set these values
-double Kpp = 25; //Set this first
-double Kdp = 2; //Set this secound
-double Kip = 150; //Finally set this 
+double Kpp = 20; //Set this first
+double Kdp = 0; //Set this secound
+double Kip = 0; //Finally set this 
 
 /******End of values setting*********/
 
@@ -42,10 +43,14 @@ void dmpDataReady()
 }
 
 void setup() {
+    angle=90;
+     myservo.write(angle);
+     delay(150);
+      last_time=0;
   pinMode(8,OUTPUT);
   digitalWrite(8,HIGH);
   myservo.attach(5);
-  myservo.write(90);
+  myservo.write(70);
   Serial.begin(115200);
 
   // initialize device
@@ -92,7 +97,7 @@ void setup() {
         //setup PID
         pid1.SetMode(AUTOMATIC);
         pid1.SetSampleTime(100);
-        pid1.SetOutputLimits(-255, 255);
+        pid1.SetOutputLimits(90,270);
   }
     else
     {
@@ -104,7 +109,8 @@ void setup() {
         Serial.print(devStatus);
         Serial.println(F(")"));
     }
-     myservo.write(75);
+  
+      
 }
 
  
@@ -155,15 +161,29 @@ void loop() {
         mpu.dmpGetQuaternion(&q, fifoBuffer); //get value for q
         mpu.dmpGetGravity(&gravity, &q); //get value for gravity
         mpu.dmpGetYawPitchRoll(ypr, &q, &gravity); //get value for ypr
-
         input1 = ypr[2] * 180/M_PI + 180;
-        servo_angle = map(input1,setpoint1-60,setpoint1+60,150,30);
-        myservo.write(servo_angle);
-//        delay(20);
+        if(input1>setpoint1+5)
+        {
+          if(millis()-last_time>15){
+          angle=angle -1.5;
+          myservo.write((int)angle);
+          last_time=millis();
+          }
+        }
+        if(input1<setpoint1-5)
+        {
+          if(millis()-last_time>15)
+          {
+          angle=angle +1.5;
+          myservo.write((int)angle);
+          last_time=millis();
+          }
+        }
+        
         
         
    }
    
-  
+//  delay(15);
    
 }
