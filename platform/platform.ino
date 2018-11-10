@@ -7,6 +7,8 @@ Servo myservo;
 
 bool moveFlag = false;
 MPU6050 mpu;
+float error;
+float last_error;
 
 // MPU control/status vars
 bool dmpReady = false;  // set true if DMP init was successful
@@ -27,14 +29,14 @@ float angle;
 /*********Tune these 4 values for your BOT*********/
 double setpoint1= 181; //set the value when the bot is perpendicular to ground using serial monitor. 
 //Read the project documentation on circuitdigest.com to learn how to set these values
-double Kpp = 20; //Set this first
-double Kdp = 0; //Set this secound
+double kp = 4; //Set this first
+double kd = 0.5; //Set this secound
 double Kip = 0; //Finally set this 
 
 /******End of values setting*********/
 
 double input1, output1;
-PID pid1(&input1, &output1, &setpoint1, Kpp, Kip, Kdp, DIRECT);
+//PID pid1(&input1, &output1, &setpoint1, Kpp, Kip, Kdp, DIRECT);
 
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
 void dmpDataReady()
@@ -43,14 +45,15 @@ void dmpDataReady()
 }
 
 void setup() {
-    angle=90;
-     myservo.write(angle);
-     delay(150);
-      last_time=0;
+  myservo.attach(9);
+  angle=180;
+  myservo.write(angle);
+  delay(150);
+  last_time=0;
   pinMode(8,OUTPUT);
   digitalWrite(8,HIGH);
-  myservo.attach(5);
-  myservo.write(70);
+  
+//  myservo.write(70);
   Serial.begin(115200);
 
   // initialize device
@@ -95,9 +98,9 @@ void setup() {
         packetSize = mpu.dmpGetFIFOPacketSize();
         
         //setup PID
-        pid1.SetMode(AUTOMATIC);
-        pid1.SetSampleTime(100);
-        pid1.SetOutputLimits(90,270);
+//        pid1.SetMode(AUTOMATIC);
+//        pid1.SetSampleTime(100);
+//        pid1.SetOutputLimits(90,270);
   }
     else
     {
@@ -124,9 +127,9 @@ void loop() {
     while (!mpuInterrupt && fifoCount < packetSize)
     {
         //no mpu data - performing PID calculations and output to motors     
-        pid1.Compute();   
+//        pid1.Compute();   
         //Print the value of Input and Output on serial monitor to check how it is working.
-        Serial.print(input1); Serial.print(" =>"); Serial.print(output1);Serial.println(" "); 
+        Serial.print(input1); Serial.print(" =>"); Serial.print(angle);Serial.println(" "); 
    
     }
 
@@ -162,23 +165,57 @@ void loop() {
         mpu.dmpGetGravity(&gravity, &q); //get value for gravity
         mpu.dmpGetYawPitchRoll(ypr, &q, &gravity); //get value for ypr
         input1 = ypr[2] * 180/M_PI + 180;
-        if(input1>setpoint1+5)
+    
+        error= input1-setpoint1;
+        
+//        if(error>0)
+//        {
+//          if(millis()-last_time>15)
+//          {
+//            angle=constrain(angle - (error * kp + kd* (error-last_error)/15)  , 0,180);
+////            myservo.write((int)angle);
+//            last_error=error;
+//            last_time=millis();
+//            
+//          }
+//        }
+//        if(error<0)
+//        {
+//          if(millis()-last_time>15)
+//          {
+//            angle=constrain(angle -(error * kp + kd *(error-last_error)/15), 0,180);
+////            myservo.write((int)angle);
+//            last_error=error;
+//            last_time=millis();
+//          }
+//        }
+        if(input1>setpoint1+7)
         {
-          if(millis()-last_time>15){
-          angle=angle -1.5;
+          if(millis()-last_time>7){
+          angle=angle -1;
           myservo.write((int)angle);
           last_time=millis();
           }
         }
-        if(input1<setpoint1-5)
+        if(input1<setpoint1-7)
         {
-          if(millis()-last_time>15)
+          if(millis()-last_time>7)
           {
-          angle=angle +1.5;
+          angle=angle +1;
           myservo.write((int)angle);
           last_time=millis();
           }
+}
+        if(error < 7.5 && error >-7.5)
+        {
+//          if(millis()-last_time>15)
+//          {
+////            angle = 90;
+//            myservo.write(angle);
+//            last_time=millis();
+//          }
         }
+        
         
         
         
