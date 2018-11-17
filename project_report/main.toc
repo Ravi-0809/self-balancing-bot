@@ -1,0 +1,17 @@
+\contentsline {chapter}{\hbox to\@tempdima {\hfil }Abstract}{i}
+\contentsline {chapter}{\numberline {1}Introduction}{1}
+\contentsline {chapter}{\numberline {2}PID control}{2}
+\contentsline {chapter}{\numberline {3}Bot dynamics}{4}
+\contentsline {section}{\numberline {3.1}Modelling of self-balancing bot}{4}
+\contentsline {section}{\numberline {3.2}Modelling of self-balancing platform}{5}
+\contentsline {section}{\numberline {3.3}Working}{5}
+\contentsline {chapter}{\numberline {4}Mechanical construction}{7}
+\contentsline {section}{\numberline {4.1}Components Used}{7}
+\contentsline {section}{\numberline {4.2}Connections}{8}
+\contentsline {subsection}{\numberline {4.2.1}Self-balancing bot}{8}
+\contentsline {subsection}{\numberline {4.2.2}Self-balancing platform}{8}
+\contentsline {subsection}{\numberline {4.2.3}Final Connections}{9}
+\contentsline {chapter}{\numberline {5}Tuning and operation}{10}
+\contentsline {chapter}{\numberline {6}Future prospects}{11}
+\contentsline {chapter}{\numberline {7}Observations and Results}{12}
+\contentsline {chapter}{\numberline {8}Referrences}{13}

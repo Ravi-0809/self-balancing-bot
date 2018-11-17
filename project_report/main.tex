@@ -1,0 +1,85 @@
+\documentclass[12pt, oneside]{report}
+\usepackage[a4paper, width=160mm, height=245mm, top=15mm, bottom=22mm, left=30mm, right=20mm, head=3mm, foot=10mm]{geometry}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{subcaption}
+% \usepackage[utf8]{inputenc}
+% \usepackage[english]{babel}
+
+% \usepackage{biblatex}
+% \addbibresource{bibliography/bibliography.bib}
+
+\renewcommand{\baselinestretch}{1.5}
+\setlength{\parindent}{2.5cm}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot{}
+\fancyfoot[CE, CO]{\thepage}
+\fancyfoot[LE, LO]{Self-balancing bot}
+\fancyfoot[RE, RO]{EEE F422}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\title{Self-balancing bot}
+
+\author{Ravi Bharadwaj C}
+
+\date{2018}
+
+\pagenumbering{roman}
+\setcounter{tocdepth}{4}
+
+\begin{document}
+
+\input{chapters/Title}
+
+\chapter*{Abstract}
+\input{chapters/Abstract}
+\addcontentsline{toc}{chapter}{\numberline{}Abstract}
+
+\cleardoublepage
+
+\tableofcontents
+
+% \listoftables
+% \thispagestyle{empty}
+
+\listoffigures
+\thispagestyle{empty}
+
+\pagenumbering{arabic}
+\chapter{Introduction}
+\input{chapters/Introduction}
+
+\chapter{PID control}
+\input{chapters/pid}
+
+\chapter{Bot dynamics}
+\input{chapters/dynamics}
+
+\chapter{Mechanical construction}
+\input{chapters/mechanical}
+
+\chapter{Tuning and operation}
+\input{chapters/tuning}
+
+\chapter{Future prospects}
+\input{chapters/future}
+
+\chapter{Observations and Results}
+\input{chapters/results}
+
+% \bibliographystyle{IEEEtran}
+% \bibliography{bibliography/bibliography.bib}
+\chapter{Referrences}
+\input{chapters/ref}
+
+%\pagebreak
+%\input{chapters/declaration}
+
+\end{document}

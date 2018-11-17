@@ -1,0 +1,8 @@
+Although the use of the PID algorithm for control does not guarantee optimal control of the system or system stability, it sure is easy to tune.\newline
+Steps used in tuning are :
+\begin{enumerate}
+  \item Set the values of I, D to 0.
+  \item Stabilize system as much as possible using only the proportional gain, P.
+  \item Set I to remove the steady state error from the system.
+  \item Finally, damp the oscillations of the system caused by P by setting D. This helps the bot achieve steady state faster and hence improves response.
+\end{enumerate}
